@@ -1,5 +1,6 @@
 # Какая то хрень в choice.
 from random import randint, choice
+import time
 import os
 
 
@@ -256,6 +257,8 @@ class SeaBattle:
 
 
 class SmartPlayer:
+    def __init__(self):
+        self.active = False
 
     def init(self, ship, processed, size):
         self.active = True
@@ -356,19 +359,20 @@ a = 's'
 if a == 's':
     game.show_game()
     while game.count_my_broken_ships < 10 and game.count_opp_broken_ships < 10:
-        game.my_attack(*input('print coords: ').split())
-        game.comp_attack()
-        game.show_game()
+        while True:
+            game.my_attack(*input('print coords: ').split())
+            if game.active:
+                game.show_game()
+            else:
+                break
 
-        # while True:
-        #     game.my_attack(*input('print coords: ').split())
-        #     if not game.active:
-        #         break
-        #
-        # while True:
-        #     game.comp_attack()
-        #     if not game.active or not game.smart_attacks.active:
-        #         break
+        while True:
+            game.comp_attack()
+            if game.active or game.smart_attacks.active:
+                game.show_game()
+                time.sleep(0.5)
+            else:
+                break
 
 
 
