@@ -75,7 +75,7 @@ class SeaBattle:
         self.count_my_broken_ships = 0
         self.count_opp_broken_ships = 0
         self.smart_attacks = SmartPlayer()
-        self.active = False
+
 
         self.ships = [
             Ship(4, tp=randint(1, 2)),
@@ -226,13 +226,13 @@ class SeaBattle:
         self.myprocessed_attacks.append((x, y))
 
     def comp_attack(self):
-        self.active = True
         if self.ship_is_damaged:
             if self.smart_attacks.attack():
                 self.ship_is_damaged = False
                 self.count_my_broken_ships += 1
 
         else:
+            self.active = True
             x = randint(0, self.size - 1)
             y = randint(0, self.size - 1)
             while (x, y) in self.processed_attacks:
@@ -258,10 +258,9 @@ class SeaBattle:
 
 class SmartPlayer:
     def __init__(self):
-        self.active = False
+        self.active = True
 
     def init(self, ship, processed, size):
-        self.active = True
         self.ship = ship
         self.size = size
         self.processed = processed
@@ -329,8 +328,6 @@ class SmartPlayer:
             self.push = self.push if self.line else None
             self.line = True
 
-        elif self.line:
-            self.wrong = True
         else:
             if self.line:
                 self.wrong = True
@@ -361,19 +358,25 @@ if a == 's':
     while game.count_my_broken_ships < 10 and game.count_opp_broken_ships < 10:
         while True:
             game.my_attack(*input('print coords: ').split())
+            print(game.active)
             if game.active:
+                os.system("cls")
                 game.show_game()
             else:
                 break
 
         while True:
             game.comp_attack()
-            if game.active or game.smart_attacks.active:
+            print(game.active, game.smart_attacks.active)
+            if game.active and game.smart_attacks.active:
+                os.system("cls")
                 game.show_game()
                 time.sleep(0.5)
             else:
                 break
-
+        os.system("cls")
+        game.show_game()
+    print('end')
 
 
 else:
