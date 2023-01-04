@@ -358,7 +358,6 @@ if a == 's':
     while game.count_my_broken_ships < 10 and game.count_opp_broken_ships < 10:
         while True:
             game.my_attack(*input('print coords: ').split())
-            print(game.active)
             if game.active:
                 os.system("cls")
                 game.show_game()
@@ -367,7 +366,6 @@ if a == 's':
 
         while True:
             game.comp_attack()
-            print(game.active, game.smart_attacks.active)
             if game.active and game.smart_attacks.active:
                 os.system("cls")
                 game.show_game()
