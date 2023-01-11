@@ -114,6 +114,8 @@ class SeaBattle:
                                                        list(filter(lambda x: x != ship, ships))]:
                 ship.move(go)
 
+    def check_in(self, *args):
+        return
     def get_opp_ships(self):
         return self.ships
 
